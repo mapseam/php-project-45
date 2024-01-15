@@ -1,0 +1,21 @@
+{
+    "name": "hexlet/code",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Hexlet\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Oleg Kartashov",
+            "email": "mapseam@yandex.ru"
+        }
+    ],
+    "description": "mapseam php-project-45",
+    "license": "MIT",
+    "require": {},
+    "bin": [
+        "bin/brain-games"
+    ]
+}
