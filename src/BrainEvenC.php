@@ -1,11 +1,23 @@
 <?php
 
+/**
+ * BrainEven game Controller unit
+ *
+ * @author    Oleg Kartashov <mapseam@yandex.ru>
+ * @copyright 2024 Oleg Kartashov (https://github.com/mapseam/)
+ * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
+ */
+
 namespace BrainGames\Even\C;
 
 use BrainGames\Even\V;
 use BrainGames\Even\M;
+
 use function cli\prompt;
 
+/**
+ * A utility for direct calling from CLI
+*/
 function gameRun(): void
 {
     define("ANSWER_YES", "yes");
@@ -29,8 +41,7 @@ function gameRun(): void
 
             if ($userAnswer === ANSWER_YES) {
                 exit(V\printForBadAnswer($userName, $userAnswer, ANSWER_NO));
-            }
-            else if ($userAnswer === ANSWER_NO) {
+            } elseif ($userAnswer === ANSWER_NO) {
                 exit(V\printForBadAnswer($userName, $userAnswer, ANSWER_YES));
             } else {
                 // undefined answer
@@ -42,6 +53,9 @@ function gameRun(): void
     V\printCongrat(M\getUserName());
 }
 
+/**
+ * Displays a request to enter the game's user name.
+*/
 function readUserName(): void
 {
     $userName = prompt(question: V\getUserNamePrompt(), marker: '');
