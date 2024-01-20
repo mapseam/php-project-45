@@ -7,6 +7,12 @@ brain-games:
 brain-even:
 	./bin/brain-even
 
+brain-even-old:
+	./bin/brain-even-old
+
+brain-calc:
+	./bin/brain-calc
+
 validate:
 	composer validate
 

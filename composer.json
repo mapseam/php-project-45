@@ -3,7 +3,9 @@
     "type": "project",
     "bin": [
         "bin/brain-games",
-        "bin/brain-even"
+        "bin/brain-even",
+        "bin/brain-even-old",
+        "bin/brain-calc"
     ],
     "authors": [
         {
@@ -21,7 +23,16 @@
             "src/Cli.php",
             "src/BrainEvenM.php",
             "src/BrainEvenC.php",
-            "src/BrainEvenV.php"
+            "src/BrainEvenV.php",
+            "src/Engine.php",
+            "src/Games/CommonModel.php",
+            "src/Games/CommonView.php",
+            "src/Games/EvenM.php",
+            "src/Games/EvenV.php",
+            "src/Games/EvenC.php",
+            "src/Games/CalcM.php",
+            "src/Games/CalcV.php",
+            "src/Games/CalcC.php"
         ]
     },
     "scripts": {
