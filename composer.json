@@ -5,7 +5,8 @@
         "bin/brain-games",
         "bin/brain-even",
         "bin/brain-even-old",
-        "bin/brain-calc"
+        "bin/brain-calc",
+        "bin/brain-gcd"
     ],
     "authors": [
         {
@@ -32,7 +33,10 @@
             "src/Games/EvenC.php",
             "src/Games/CalcM.php",
             "src/Games/CalcV.php",
-            "src/Games/CalcC.php"
+            "src/Games/CalcC.php",
+            "src/Games/GcdM.php",
+            "src/Games/GcdV.php",
+            "src/Games/GcdC.php"
         ]
     },
     "scripts": {

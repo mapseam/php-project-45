@@ -5,3 +5,8 @@
 
 My Brain-even CLI game testing process on ASCIInema.org - https://asciinema.org/a/632247
 
+My Brain-calc CLI game testing process on ASCIInema.org -https://asciinema.org/a/632621
+
+My Brain-GCD CLI game testing process on ASCIInema.org - https://asciinema.org/a/632659
+
+
