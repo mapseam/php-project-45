@@ -6,7 +6,8 @@
         "bin/brain-even",
         "bin/brain-even-old",
         "bin/brain-calc",
-        "bin/brain-gcd"
+        "bin/brain-gcd",
+        "bin/brain-progression"
     ],
     "authors": [
         {
@@ -36,7 +37,10 @@
             "src/Games/CalcC.php",
             "src/Games/GcdM.php",
             "src/Games/GcdV.php",
-            "src/Games/GcdC.php"
+            "src/Games/GcdC.php",
+            "src/Games/ProgressionM.php",
+            "src/Games/ProgressionV.php",
+            "src/Games/ProgressionC.php"
         ]
     },
     "scripts": {
