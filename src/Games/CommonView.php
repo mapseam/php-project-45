@@ -83,7 +83,7 @@ function printCongrat(string $userName): void
 /**
  *  Prints the prompt with a question to the game's user
  *
- * @param int  $randomInt  The even-numbered value
+ * @param string  $questionValue  The question value
 */
 function printUserAskPrompt(string $questionValue): void
 {
