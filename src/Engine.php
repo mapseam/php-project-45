@@ -30,55 +30,30 @@ function readUserName($userNamePromptCB, $setUserNameCB, $helloCB): void
 /**
  * A routine for direct call from controller unit
  *
- * @param callable $welcomeCB       Print welcome message
- * @param callable $userNamePromptCB    Prompt user name
- * @param callable $setUserNameCB   Save user name
- * @param callable $helloCB     Print hello message
- * @param callable $getUserNameCB   Return user name
- * @param callable $tipCB       Print tip message
- * @param callable $userAskPromptCB Prompt user's question
- * @param callable $toStringCB      Print presentation view of user's question
- * @param callable $userAnswerPromptCB  Prompt user's answer
- * @param callable $calcResultCB    Print presentation view of user's answer
- * @param callable $goodAnswerCB    Print decision for right user's answer
- * @param callable $badAnswerCB     Print decision for wrong user's answer
- * @param callable $congratCB       Print congratulation message
+ * @param array $cbArr  Array of call-back functions
 */
-function gamePlay(
-    $welcomeCB,
-    $userNamePromptCB,
-    $setUserNameCB,
-    $helloCB,
-    $getUserNameCB,
-    $tipCB,
-    $userAskPromptCB,
-    $toStringCB,
-    $userAnswerPromptCB,
-    $calcResultCB,
-    $goodAnswerCB,
-    $badAnswerCB,
-    $congratCB
-): void {
-    call_user_func($welcomeCB);
-    readUserName($userNamePromptCB, $setUserNameCB, $helloCB);
-    call_user_func($tipCB);
+function gamePlay(array &$cbArr): void
+{
+    call_user_func($cbArr["welcomeCB"]);
+    readUserName($cbArr["userNamePromptCB"], $cbArr["setUserNameCB"], $cbArr["helloCB"]);
+    call_user_func($cbArr["tipCB"]);
 
-    $userName = call_user_func($getUserNameCB);
+    $userName = call_user_func($cbArr["getUserNameCB"]);
 
     for ($i = 1; $i <= 3; $i++) {
-        call_user_func($userAskPromptCB, call_user_func($toStringCB));
-        $userAnswer = prompt(call_user_func($userAnswerPromptCB));
+        call_user_func($cbArr["userAskPromptCB"], call_user_func($cbArr["toStringCB"]));
+        $userAnswer = prompt(call_user_func($cbArr["userAnswerPromptCB"]));
 
-        $correctAnswer = call_user_func($calcResultCB);
+        $correctAnswer = call_user_func($cbArr["calcResultCB"]);
 
         // answer is right
         if ($correctAnswer === $userAnswer) {
-            call_user_func($goodAnswerCB);
+            call_user_func($cbArr["goodAnswerCB"]);
         } else {
             // answer is wrong or undefined
-            exit(call_user_func($badAnswerCB, $userAnswer, $correctAnswer, $userName));
+            exit(call_user_func($cbArr["badAnswerCB"], $userAnswer, $correctAnswer, $userName));
         }
     }
 
-    call_user_func($congratCB, $userName);
+    call_user_func($cbArr["congratCB"], $userName);
 }
