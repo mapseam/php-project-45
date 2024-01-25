@@ -11,5 +11,8 @@ My Brain-GCD CLI game testing process on ASCIInema.org - https://asciinema.org/a
 
 My Brain-Progression CLI game testing process on ASCIInema.org - https://asciinema.org/a/633024
 
+My Brain-Prime CLI game testing process on ASCIInema.org - https://asciinema.org/a/633037
+
+
 
 

@@ -35,7 +35,7 @@ function getUserNamePrompt(): string
 
 
 /**
- *  Prints the hello message to `STDOUT` with a newline appended for game's user name.
+ * Prints the hello message to `STDOUT` with a newline appended for game's user name.
  *
  * @param string  $userName  The game's user name
 */
