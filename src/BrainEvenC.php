@@ -40,13 +40,14 @@ function gameRun(): void
             $userName = M\getUserName();
 
             if ($userAnswer === ANSWER_YES) {
-                exit(V\printForBadAnswer($userName, $userAnswer, ANSWER_NO));
+                V\printForBadAnswer($userName, $userAnswer, ANSWER_NO);
             } elseif ($userAnswer === ANSWER_NO) {
-                exit(V\printForBadAnswer($userName, $userAnswer, ANSWER_YES));
+                V\printForBadAnswer($userName, $userAnswer, ANSWER_YES);
             } else {
                 // undefined answer
-                exit(V\printForBadAnswer($userName, $userAnswer, $isEven ? ANSWER_YES : ANSWER_NO));
+                V\printForBadAnswer($userName, $userAnswer, $isEven ? ANSWER_YES : ANSWER_NO);
             }
+            exit;
         }
     }
 
