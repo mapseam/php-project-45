@@ -10,8 +10,8 @@
 
 namespace Brain\Games\GcdM;
 
-$randomNumberX = null;
-$randomNumberY = null;
+$GLOBALS['randomNumberX'] = null;
+$GLOBALS['randomNumberY'] = null;
 
 
 /**

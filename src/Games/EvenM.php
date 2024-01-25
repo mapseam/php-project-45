@@ -10,7 +10,7 @@
 
 namespace Brain\Games\EvenM;
 
-$randomNumber = null;
+$GLOBALS['randomNumber'] = null;
 
 
 /**

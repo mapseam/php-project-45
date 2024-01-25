@@ -10,7 +10,7 @@
 
 namespace Brain\Games\PrimeM;
 
-$randomNumber = null;
+$GLOBALS['randomNumber'] = null;
 
 
 /**

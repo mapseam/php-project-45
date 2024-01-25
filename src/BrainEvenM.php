@@ -10,7 +10,7 @@
 
 namespace BrainGames\Even\M;
 
-$internalUserName;
+$GLOBALS['internalUserName'] = "?";
 
 /**
  * Return the random integer

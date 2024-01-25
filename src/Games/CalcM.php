@@ -10,9 +10,9 @@
 
 namespace Brain\Games\CalcM;
 
-$randomNumberX = null;
-$randomNumberY = null;
-$operationSign = null;
+$GLOBALS['randomNumberX'] = null;
+$GLOBALS['randomNumberY'] = null;
+$GLOBALS['operationSign'] = null;
 
 
 /**
@@ -45,7 +45,7 @@ function initData(): void
  *
  * @return string   String presentation of calculated expression
 */
-function calcResult(): string
+function calcResult(): string|null
 {
     switch ($GLOBALS['operationSign']) {
         case '+':
@@ -61,7 +61,7 @@ function calcResult(): string
             $operationResult = null;
     }
 
-    return (string)$operationResult;
+    return $operationResult;
 }
 
 

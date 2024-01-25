@@ -10,8 +10,8 @@
 
 namespace Brain\Games\ProgressionM;
 
-$progressionArray = null;
-$progressionMissedValueIndex = -1;
+$GLOBALS['progressionArray'] = null;
+$GLOBALS['progressionMissedValueIndex'] = -1;
 
 
 /**
