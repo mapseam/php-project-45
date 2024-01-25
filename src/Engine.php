@@ -14,6 +14,10 @@ use function cli\prompt;
 
 /**
  * Displays a request to enter the game's user name.
+ *
+ * @param callable $userNamePromptCB    Prompt user name
+ * @param callable $setUserNameCB   Save user name
+ * @param callable $helloCB     Print hello message
 */
 function readUserName($userNamePromptCB, $setUserNameCB, $helloCB): void
 {
@@ -25,6 +29,20 @@ function readUserName($userNamePromptCB, $setUserNameCB, $helloCB): void
 
 /**
  * A routine for direct call from controller unit
+ *
+ * @param callable $welcomeCB       Print welcome message
+ * @param callable $userNamePromptCB    Prompt user name
+ * @param callable $setUserNameCB   Save user name
+ * @param callable $helloCB     Print hello message
+ * @param callable $getUserNameCB   Return user name
+ * @param callable $tipCB       Print tip message
+ * @param callable $userAskPromptCB Prompt user's question
+ * @param callable $toStringCB      Print presentation view of user's question
+ * @param callable $userAnswerPromptCB  Prompt user's answer
+ * @param callable $calcResultCB    Print presentation view of user's answer
+ * @param callable $goodAnswerCB    Print decision for right user's answer
+ * @param callable $badAnswerCB     Print decision for wrong user's answer
+ * @param callable $congratCB       Print congratulation message
 */
 function gamePlay(
     $welcomeCB,

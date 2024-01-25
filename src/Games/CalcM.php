@@ -49,13 +49,13 @@ function calcResult(): string|null
 {
     switch ($GLOBALS['operationSign']) {
         case '+':
-            $operationResult = $GLOBALS['randomNumberX'] + $GLOBALS['randomNumberY'];
+            $operationResult = (string)($GLOBALS['randomNumberX'] + $GLOBALS['randomNumberY']);
             break;
         case '-':
-            $operationResult = $GLOBALS['randomNumberX'] - $GLOBALS['randomNumberY'];
+            $operationResult = (string)($GLOBALS['randomNumberX'] - $GLOBALS['randomNumberY']);
             break;
         case '*':
-            $operationResult = $GLOBALS['randomNumberX'] * $GLOBALS['randomNumberY'];
+            $operationResult = (string)($GLOBALS['randomNumberX'] * $GLOBALS['randomNumberY']);
             break;
         default:
             $operationResult = null;

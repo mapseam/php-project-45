@@ -23,7 +23,7 @@ $GLOBALS['randomNumberY'] = null;
  */
 function gcd(int $a, int $b): int
 {
-    return $b ? gcd($b, $a % $b) : $a;
+    return $b > 0 ? gcd($b, $a % $b) : $a;
 }
 
 
