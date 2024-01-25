@@ -15,14 +15,14 @@ use BrainGames\Even\M;
 
 use function cli\prompt;
 
+define("RIGHT_ANSWER", "yes");
+define("WRONG_ANSWER", "no");
+
 /**
  * A utility for direct calling from CLI
 */
 function gameRun(): void
 {
-    define("ANSWER_YES", "yes");
-    define("ANSWER_NO", "no");
-
     V\printWelcome();
     readUserName();
     V\printTip();
@@ -34,18 +34,18 @@ function gameRun(): void
         $userAnswer = prompt(V\getUserAnswerPrompt());
 
         $isEven = M\isEvenNumbered($randomInt);
-        if (($isEven && $userAnswer === ANSWER_YES) || (!$isEven && $userAnswer === ANSWER_NO)) {
+        if (($isEven && $userAnswer === RIGHT_ANSWER) || (!$isEven && $userAnswer === WRONG_ANSWER)) {
             V\printForGoodAnswer();
         } else {
             $userName = M\getUserName();
 
-            if ($userAnswer === ANSWER_YES) {
-                V\printForBadAnswer($userName, $userAnswer, ANSWER_NO);
-            } elseif ($userAnswer === ANSWER_NO) {
-                V\printForBadAnswer($userName, $userAnswer, ANSWER_YES);
+            if ($userAnswer === RIGHT_ANSWER) {
+                V\printForBadAnswer($userName, $userAnswer, WRONG_ANSWER);
+            } elseif ($userAnswer === WRONG_ANSWER) {
+                V\printForBadAnswer($userName, $userAnswer, RIGHT_ANSWER);
             } else {
                 // undefined answer
-                V\printForBadAnswer($userName, $userAnswer, $isEven ? ANSWER_YES : ANSWER_NO);
+                V\printForBadAnswer($userName, $userAnswer, $isEven ? RIGHT_ANSWER : ANSWER_NO);
             }
             exit;
         }
