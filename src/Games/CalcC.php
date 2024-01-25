@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Brain Calc game controller
+ * CalcC
  *
  * @author    Oleg Kartashov <mapseam@yandex.ru>
  * @copyright 2024 Oleg Kartashov (https://github.com/mapseam/)
