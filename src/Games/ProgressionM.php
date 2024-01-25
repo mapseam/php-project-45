@@ -76,7 +76,7 @@ function toString(): string
             $progressionItemAsString = "{$GLOBALS['progressionArray'][$i]}";
         }
 
-        $stringExpression .= " " . "{$progressionItemAsString}";
+        $stringExpression = "{$stringExpression} {$progressionItemAsString}";
     }
     $stringExpression = ltrim($stringExpression);
 
