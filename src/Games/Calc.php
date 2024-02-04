@@ -1,18 +1,49 @@
 <?php
 
 /**
- * BrainGames Calc model unit
+ * BrainCalc game
  *
  * @author    Oleg Kartashov <mapseam@yandex.ru>
  * @copyright 2024 Oleg Kartashov (https://github.com/mapseam/)
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Brain\Games\CalcM;
+namespace Brain\Games\Calc;
+
+use Brain\Games\CommonModel;
+use Brain\Games\CommonView;
+use Brain\Engine;
+
+use function cli\line;
 
 $GLOBALS['randomNumberX'] = null;
 $GLOBALS['randomNumberY'] = null;
 $GLOBALS['operationSign'] = null;
+
+
+/**
+ * A routine for direct call from bin file
+*/
+function gameRun(): void
+{
+    $callBacksArray = array(
+        "welcomeCB" => 'Brain\Games\CommonView\printWelcome',
+        "userNamePromptCB" => 'Brain\Games\CommonView\getUserNamePrompt',
+        "setUserNameCB" => 'Brain\Games\CommonModel\setUserName',
+        "helloCB" => 'Brain\Games\CommonView\printHello',
+        "getUserNameCB" => 'Brain\Games\CommonModel\getUserName',
+        "tipCB" => 'Brain\Games\Calc\printTip',
+        "userAskPromptCB" => 'Brain\Games\CommonView\printUserAskPrompt',
+        "toStringCB" => 'Brain\Games\Calc\toString',
+        "userAnswerPromptCB" => 'Brain\Games\CommonView\getUserAnswerPrompt',
+        "calcResultCB" => 'Brain\Games\Calc\calcResult',
+        "goodAnswerCB" => 'Brain\Games\CommonView\printForGoodAnswer',
+        "badAnswerCB" => 'Brain\Games\CommonView\printForBadAnswer',
+        "congratCB" => 'Brain\Games\CommonView\printCongrat'
+    );
+
+    Engine\gamePlay($callBacksArray);
+}
 
 
 /**
@@ -76,4 +107,14 @@ function toString(): string
     $stringExpression = "{$GLOBALS['randomNumberX']} {$GLOBALS['operationSign']} {$GLOBALS['randomNumberY']}";
 
     return $stringExpression;
+}
+
+
+/**
+ *  Prints the tip message to `STDOUT` with a newline appended.
+ *
+*/
+function printTip(): void
+{
+    line('What is the result of the expression?');
 }

@@ -1,17 +1,48 @@
 <?php
 
 /**
- * BrainGames GCD model unit
+ * BrainGCD game
  *
  * @author    Oleg Kartashov <mapseam@yandex.ru>
  * @copyright 2024 Oleg Kartashov (https://github.com/mapseam/)
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Brain\Games\GcdM;
+namespace Brain\Games\Gcd;
+
+use Brain\Games\CommonModel;
+use Brain\Games\CommonView;
+use Brain\Engine;
+
+use function cli\line;
 
 $GLOBALS['randomNumberX'] = null;
 $GLOBALS['randomNumberY'] = null;
+
+
+/**
+ * A routine for direct call from bin file
+*/
+function gameRun(): void
+{
+    $callBacksArray = array(
+        "welcomeCB" => 'Brain\Games\CommonView\printWelcome',
+        "userNamePromptCB" => 'Brain\Games\CommonView\getUserNamePrompt',
+        "setUserNameCB" => 'Brain\Games\CommonModel\setUserName',
+        "helloCB" => 'Brain\Games\CommonView\printHello',
+        "getUserNameCB" => 'Brain\Games\CommonModel\getUserName',
+        "tipCB" => 'Brain\Games\Gcd\printTip',
+        "userAskPromptCB" => 'Brain\Games\CommonView\printUserAskPrompt',
+        "toStringCB" => 'Brain\Games\Gcd\toString',
+        "userAnswerPromptCB" => 'Brain\Games\CommonView\getUserAnswerPrompt',
+        "calcResultCB" => 'Brain\Games\Gcd\calcResult',
+        "goodAnswerCB" => 'Brain\Games\CommonView\printForGoodAnswer',
+        "badAnswerCB" => 'Brain\Games\CommonView\printForBadAnswer',
+        "congratCB" => 'Brain\Games\CommonView\printCongrat'
+    );
+
+    Engine\gamePlay($callBacksArray);
+}
 
 
 /**
@@ -44,10 +75,8 @@ function initData(): void
 */
 function calcResult(): string
 {
-    //$operationResult = gmp_gcd($GLOBALS['randomNumberX'], $GLOBALS['randomNumberY']);
     $operationResult = gcd($GLOBALS['randomNumberX'], $GLOBALS['randomNumberY']);
 
-    //return gmp_strval($operationResult);
     return (string)$operationResult;
 }
 
@@ -63,4 +92,14 @@ function toString(): string
     $stringExpression = "{$GLOBALS['randomNumberX']} {$GLOBALS['randomNumberY']}";
 
     return $stringExpression;
+}
+
+
+/**
+ *  Prints the tip message to `STDOUT` with a newline appended.
+ *
+*/
+function printTip(): void
+{
+    line('Find the greatest common divisor of given numbers.');
 }
