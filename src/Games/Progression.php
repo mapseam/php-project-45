@@ -67,7 +67,12 @@ function gameStart()
         $stepValue = random_int(SEQUENCE_STEP_MIN, SEQUENCE_STEP_MAX);
 
         $numbers = progressionBuild($lengthValue, $startNumber, $stepValue);
-        $missedNumberPosition = random_int(ARRAY_START_POSITION, count($numbers) - 1);
+        $upOfNumbers = count($numbers) - 1;
+        if (ARRAY_START_POSITION < $upOfNumbers) {
+            $missedNumberPosition = random_int(ARRAY_START_POSITION, $upOfNumbers);
+        } else {
+            $missedNumberPosition = ARRAY_START_POSITION;
+        }
 
         $answer = calcResult($numbers, $missedNumberPosition);
         $ask = askPresentation($numbers);
