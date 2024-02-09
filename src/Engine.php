@@ -8,52 +8,35 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Brain\Engine;
+namespace Engine;
 
+use function cli\line;
 use function cli\prompt;
 
-/**
- * Displays a request to enter the game's user name.
- *
- * @param callable $userNamePromptCB    Prompt user name
- * @param callable $setUserNameCB   Save user name
- * @param callable $helloCB     Print hello message
-*/
-function readUserName($userNamePromptCB, $setUserNameCB, $helloCB): void
+const NUMBER_OF_ROUNDS = 3;
+
+function gamePlay(string $customTip, array &$pairsOfAskAnswer)
 {
-    $userName = prompt(question: call_user_func($userNamePromptCB), marker: '');
-    call_user_func($setUserNameCB, $userName);
-    call_user_func($helloCB, $userName);
-}
+    line('Welcome to the Brain Games!');
 
+    $userName = prompt(question: 'May I have your name? ', marker: '');
+    line("Hello, %s!", $userName);
 
-/**
- * A routine for direct call from controller unit
- *
- * @param array $cbArr  Array of call-back functions
-*/
-function gamePlay(array &$cbArr): void
-{
-    call_user_func($cbArr["welcomeCB"]);
-    readUserName($cbArr["userNamePromptCB"], $cbArr["setUserNameCB"], $cbArr["helloCB"]);
-    call_user_func($cbArr["tipCB"]);
+    line($customTip);
 
-    $userName = call_user_func($cbArr["getUserNameCB"]);
+    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
+        line("Question: {$pairsOfAskAnswer[$i]["prompt_ask"]}");
+        $userAnswer = prompt(question: 'Your answer: ', marker: '');
 
-    for ($i = 1; $i <= 3; $i++) {
-        call_user_func($cbArr["userAskPromptCB"], call_user_func($cbArr["toStringCB"]));
-        $userAnswer = prompt(call_user_func($cbArr["userAnswerPromptCB"]));
+        $rightAnswer = $pairsOfAskAnswer[$i]["right_answer"];
 
-        $correctAnswer = call_user_func($cbArr["calcResultCB"]);
-
-        // answer is right
-        if ($correctAnswer === $userAnswer) {
-            call_user_func($cbArr["goodAnswerCB"]);
+        if ($rightAnswer === $userAnswer) {
+            line("Correct!");
         } else {
-            // answer is wrong or undefined
-            exit(call_user_func($cbArr["badAnswerCB"], $userAnswer, $correctAnswer, $userName));
+            exit("'{$userAnswer}' is wrong answer ;(. Correct answer was " .
+                "'{$rightAnswer}'.\nLet's try again, {$userName}!");
         }
     }
 
-    call_user_func($cbArr["congratCB"], $userName);
+    line("Congratulations, {$userName}!");
 }

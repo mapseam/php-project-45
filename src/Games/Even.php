@@ -8,83 +8,43 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Brain\Games\Even;
+namespace BrainGames\Even;
 
-use Brain\Games\CommonModel;
-use Brain\Games\CommonView;
-use Brain\Engine;
+use function Engine\gamePlay;
 
-use function cli\line;
+use const Engine\NUMBER_OF_ROUNDS;
 
-$GLOBALS['randomNumber'] = null;
+const CUSTOM_TIP = 'Answer "yes" if the number is even, otherwise answer "no".';
 
 
-/**
- * A routine for direct call from bin file
-*/
-function gameRun(): void
+function askPresentation(int $operand): string
 {
-    $callBacksArray = array(
-        "welcomeCB" => 'Brain\Games\CommonView\printWelcome',
-        "userNamePromptCB" => 'Brain\Games\CommonView\getUserNamePrompt',
-        "setUserNameCB" => 'Brain\Games\CommonModel\setUserName',
-        "helloCB" => 'Brain\Games\CommonView\printHello',
-        "getUserNameCB" => 'Brain\Games\CommonModel\getUserName',
-        "tipCB" => 'Brain\Games\Even\printTip',
-        "userAskPromptCB" => 'Brain\Games\CommonView\printUserAskPrompt',
-        "toStringCB" => 'Brain\Games\Even\toString',
-        "userAnswerPromptCB" => 'Brain\Games\CommonView\getUserAnswerPrompt',
-        "calcResultCB" => 'Brain\Games\Even\calcResult',
-        "goodAnswerCB" => 'Brain\Games\CommonView\printForGoodAnswer',
-        "badAnswerCB" => 'Brain\Games\CommonView\printForBadAnswer',
-        "congratCB" => 'Brain\Games\CommonView\printCongrat'
-    );
+    $result = (string) $operand;
 
-    Engine\gamePlay($callBacksArray);
+    return $result;
 }
 
 
-/**
- * Init source data
- */
-function initData(): void
+function resultCalc($operand): string
 {
-    $GLOBALS['randomNumber'] = random_int(1, 100);
+    $operationResult = ($operand % 2 === 0);
+
+    return $operationResult ? 'yes' : 'no';
 }
 
 
-/**
- * Return string presentation of calculated expression
- *
- *$return string        String presentation of calculated expression
-*/
-function calcResult(): string
+function gameStart()
 {
-    $operationResult = ($GLOBALS['randomNumber'] % 2 === 0);
+    $pairsOfAskAnswer = [];
 
-    return $operationResult ? "yes" : "no";
-}
+    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
+        $operand = random_int(1, 100);
 
+        $ask = askPresentation($operand);
+        $answer = resultCalc($operand);
 
-/**
- * Init source data and return string presentation of source expression
- *
- * @return string        String presentation of source expression
-*/
-function toString(): string
-{
-    initData();
-    $stringExpression = "{$GLOBALS['randomNumber']}";
+        array_push($pairsOfAskAnswer, array("prompt_ask" => $ask, "right_answer" => $answer));
+    }
 
-    return $stringExpression;
-}
-
-
-/**
- *  Prints the tip message to `STDOUT` with a newline appended.
- *
-*/
-function printTip(): void
-{
-    line('Answer "yes" if the number is even, otherwise answer "no".');
+    gamePlay(CUSTOM_TIP, $pairsOfAskAnswer);
 }

@@ -15,7 +15,7 @@ Zend Engine v4.1.2, Copyright (c) Zend Technologies
     with Zend OPcache v8.1.2-1ubuntu2.14, Copyright (c), by Zend Technologies
 ```
 
-	If PHP is not installed on your computer yet, then install it using next commands for Debian-based Linux distro:
+	If PHP is not installed on your computer yet, then install it using next commands for Debian-based Linux distros:
 ```
 sudo apt update
 sudo apt install -y php
@@ -57,7 +57,3 @@ My Brain-GCD CLI game testing process on ASCIInema.org - https://asciinema.org/a
 My Brain-Progression CLI game testing process on ASCIInema.org - https://asciinema.org/a/633024
 
 My Brain-Prime CLI game testing process on ASCIInema.org - https://asciinema.org/a/633037
-
-
-
-

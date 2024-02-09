@@ -8,118 +8,67 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Brain\Games\Progression;
-
-use Brain\Games\CommonModel;
-use Brain\Games\CommonView;
-use Brain\Engine;
+namespace BrainGames\Progression;
 
 use function cli\line;
+use function cli\prompt;
+use function Engine\gamePlay;
 
-$GLOBALS['progressionArray'] = null;
-$GLOBALS['progressionMissedValueIndex'] = -1;
+use const Engine\NUMBER_OF_ROUNDS;
+
+const CUSTOM_TIP = 'What number is missing in the progression?';
 
 
-/**
- * A routine for direct call from bin file
-*/
-function gameRun(): void
+function progressionBuild(int $lengthValue, int $startNumber, int $stepValue): array
 {
-    $callBacksArray = array(
-        "welcomeCB" => 'Brain\Games\CommonView\printWelcome',
-        "userNamePromptCB" => 'Brain\Games\CommonView\getUserNamePrompt',
-        "setUserNameCB" => 'Brain\Games\CommonModel\setUserName',
-        "helloCB" => 'Brain\Games\CommonView\printHello',
-        "getUserNameCB" => 'Brain\Games\CommonModel\getUserName',
-        "tipCB" => 'Brain\Games\Progression\printTip',
-        "userAskPromptCB" => 'Brain\Games\CommonView\printUserAskPrompt',
-        "toStringCB" => 'Brain\Games\Progression\toString',
-        "userAnswerPromptCB" => 'Brain\Games\CommonView\getUserAnswerPrompt',
-        "calcResultCB" => 'Brain\Games\Progression\calcResult',
-        "goodAnswerCB" => 'Brain\Games\CommonView\printForGoodAnswer',
-        "badAnswerCB" => 'Brain\Games\CommonView\printForBadAnswer',
-        "congratCB" => 'Brain\Games\CommonView\printCongrat'
-    );
+    $numbers = [];
 
-    Engine\gamePlay($callBacksArray);
-}
-
-
-/**
- * Init source data
- */
-function initData(): void
-{
-    $minProgressionArrayLength = 5;
-    $recommendProgressionArrayLength = 10;
-
-    // define length of number array
-    $progressionArrayLength = random_int(
-        $minProgressionArrayLength,
-        $recommendProgressionArrayLength
-    );
-
-    // define step of progression
-    $progressionStep = random_int(2, 5);
-
-    // fill the number array
-    $GLOBALS['progressionArray'] = [1];
-    for ($i = 1; $i < $progressionArrayLength; $i++) {
-        $GLOBALS['progressionArray'][$i] =
-            $GLOBALS['progressionArray'][$i - 1] + $progressionStep;
+    for ($i = 0; $i < $lengthValue; $i++) {
+        $numbers[] = $startNumber;
+        $startNumber += $stepValue;
     }
 
-    // define order number of missed value
-    $GLOBALS['progressionMissedValueIndex'] = random_int(0, $progressionArrayLength - 1);
+    return $numbers;
 }
 
 
-/**
- * Return string presentation of calculated expression
- *
- * @return string   String presentation of calculated expression
-*/
-function calcResult(): string
+function askPresentation(array $numbers): string
 {
-    $missedValueIndex = $GLOBALS['progressionMissedValueIndex'];
+    $result = implode(', ', $numbers);
 
-    $operationResult =
-        (string)$GLOBALS['progressionArray'][$missedValueIndex];
+    return $result;
+}
+
+
+function calcResult(array &$numbers, int $missedNumberPosition): string
+{
+    $operationResult = (string) $numbers[$missedNumberPosition];
+    $numbers[$missedNumberPosition] = '..';
 
     return $operationResult;
 }
 
 
-/**
- * Init source data and return string presentation of source expression
- *
- * @return string   String presentation of source expression
-*/
-function toString(): string
+function gameStart()
 {
-    initData();
+    define("MIN_LENGTH", 5);
+    define("RECOMMEND_LENGTH", 10);
 
-    $stringExpression = "";
-    for ($i = 0; $i < count($GLOBALS['progressionArray']); $i++) {
-        if ($GLOBALS['progressionMissedValueIndex'] == $i) {
-            $progressionItemAsString = "..";
-        } else {
-            $progressionItemAsString = "{$GLOBALS['progressionArray'][$i]}";
-        }
+    $pairsOfAskAnswer = [];
 
-        $stringExpression = "{$stringExpression} {$progressionItemAsString}";
+    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
+        $startNumber = random_int(1, 10);
+        $stepValue = random_int(2, 5);
+        $lengthValue = random_int(MIN_LENGTH, RECOMMEND_LENGTH);
+
+        $numbers = progressionBuild($lengthValue, $startNumber, $stepValue);
+
+        $missedNumberPosition = random_int(0, count($numbers) - 1);
+        $answer = calcResult($numbers, $missedNumberPosition);
+        $ask = askPresentation($numbers);
+
+        array_push($pairsOfAskAnswer, array("prompt_ask" => $ask, "right_answer" => $answer));
     }
-    $stringExpression = ltrim($stringExpression);
 
-    return $stringExpression;
-}
-
-
-/**
- *  Prints the tip message to `STDOUT` with a newline appended.
- *
-*/
-function printTip(): void
-{
-    line('What number is missing in the progression?');
+    gamePlay(CUSTOM_TIP, $pairsOfAskAnswer);
 }

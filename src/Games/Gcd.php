@@ -8,98 +8,50 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Brain\Games\Gcd;
+namespace BrainGames\Gcd;
 
-use Brain\Games\CommonModel;
-use Brain\Games\CommonView;
-use Brain\Engine;
+use function Engine\gamePlay;
 
-use function cli\line;
+use const Engine\NUMBER_OF_ROUNDS;
 
-$GLOBALS['randomNumberX'] = null;
-$GLOBALS['randomNumberY'] = null;
+const CUSTOM_TIP = 'Find the greatest common divisor of given numbers.';
 
 
-/**
- * A routine for direct call from bin file
-*/
-function gameRun(): void
-{
-    $callBacksArray = array(
-        "welcomeCB" => 'Brain\Games\CommonView\printWelcome',
-        "userNamePromptCB" => 'Brain\Games\CommonView\getUserNamePrompt',
-        "setUserNameCB" => 'Brain\Games\CommonModel\setUserName',
-        "helloCB" => 'Brain\Games\CommonView\printHello',
-        "getUserNameCB" => 'Brain\Games\CommonModel\getUserName',
-        "tipCB" => 'Brain\Games\Gcd\printTip',
-        "userAskPromptCB" => 'Brain\Games\CommonView\printUserAskPrompt',
-        "toStringCB" => 'Brain\Games\Gcd\toString',
-        "userAnswerPromptCB" => 'Brain\Games\CommonView\getUserAnswerPrompt',
-        "calcResultCB" => 'Brain\Games\Gcd\calcResult',
-        "goodAnswerCB" => 'Brain\Games\CommonView\printForGoodAnswer',
-        "badAnswerCB" => 'Brain\Games\CommonView\printForBadAnswer',
-        "congratCB" => 'Brain\Games\CommonView\printCongrat'
-    );
-
-    Engine\gamePlay($callBacksArray);
-}
-
-
-/**
- * Return the greatest common divisor of given numbers
- *
- * @param int $a Int number #1
- * @param int $b Int number #2
- * @return int  The greatest common divisor of given numbers
- */
 function gcd(int $a, int $b): int
 {
     return $b > 0 ? gcd($b, $a % $b) : $a;
 }
 
 
-/**
- * Init source data
- */
-function initData(): void
+function askPresentation($firstOperand, $secondOperand): string
 {
-    $GLOBALS['randomNumberX'] = random_int(1, 100);
-    $GLOBALS['randomNumberY'] = random_int(1, 100);
+    $result = "{$firstOperand} {$secondOperand}";
+
+    return $result;
 }
 
 
-/**
- * Return string presentation of calculated expression
- *
- * @return string   String presentation of calculated expression
-*/
-function calcResult(): string
+function resultCalc(int $firstOperand, int $secondOperand): string
 {
-    $operationResult = gcd($GLOBALS['randomNumberX'], $GLOBALS['randomNumberY']);
+    $operationResult = gcd($firstOperand, $secondOperand);
 
-    return (string)$operationResult;
+    return (string) $operationResult;
 }
 
 
-/**
- * Init source data and return string presentation of source expression
- *
- * @return string   String presentation of source expression
-*/
-function toString(): string
+function gameStart()
 {
-    initData();
-    $stringExpression = "{$GLOBALS['randomNumberX']} {$GLOBALS['randomNumberY']}";
+    $pairsOfAskAnswer = [];
 
-    return $stringExpression;
-}
+    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
+        $firstOperand = random_int(1, 100);
+        $secondOperand = random_int(1, 100);
 
+        $ask = askPresentation($firstOperand, $secondOperand);
+        $answer = resultCalc($firstOperand, $secondOperand);
 
-/**
- *  Prints the tip message to `STDOUT` with a newline appended.
- *
-*/
-function printTip(): void
-{
-    line('Find the greatest common divisor of given numbers.');
+        array_push($pairsOfAskAnswer, array("prompt_ask" => $ask, "right_answer" => $answer));
+    }
+
+    gamePlay(CUSTOM_TIP, $pairsOfAskAnswer);
 }

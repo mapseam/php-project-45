@@ -23,7 +23,7 @@ validate:
 	composer validate
 
 lint:
-	composer exec --verbose phpcs -- --standard=PSR12 src bin
+	composer run-script phpcs
 
 improve:
-	composer exec --verbose phpcbf -- --standard=PSR12 src bin
+	composer run-script phpcbf

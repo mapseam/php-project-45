@@ -8,85 +8,34 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Brain\Games\Calc;
+namespace BrainGames\Calc;
 
-use Brain\Games\CommonModel;
-use Brain\Games\CommonView;
-use Brain\Engine;
+use function Engine\gamePlay;
 
-use function cli\line;
+use const Engine\NUMBER_OF_ROUNDS;
 
-$GLOBALS['randomNumberX'] = null;
-$GLOBALS['randomNumberY'] = null;
-$GLOBALS['operationSign'] = null;
+const CUSTOM_TIP = 'What is the result of the expression?';
 
 
-/**
- * A routine for direct call from bin file
-*/
-function gameRun(): void
+function askPresentation(int $firstOperand, string $operationSign, int $secondOperand): string
 {
-    $callBacksArray = array(
-        "welcomeCB" => 'Brain\Games\CommonView\printWelcome',
-        "userNamePromptCB" => 'Brain\Games\CommonView\getUserNamePrompt',
-        "setUserNameCB" => 'Brain\Games\CommonModel\setUserName',
-        "helloCB" => 'Brain\Games\CommonView\printHello',
-        "getUserNameCB" => 'Brain\Games\CommonModel\getUserName',
-        "tipCB" => 'Brain\Games\Calc\printTip',
-        "userAskPromptCB" => 'Brain\Games\CommonView\printUserAskPrompt',
-        "toStringCB" => 'Brain\Games\Calc\toString',
-        "userAnswerPromptCB" => 'Brain\Games\CommonView\getUserAnswerPrompt',
-        "calcResultCB" => 'Brain\Games\Calc\calcResult',
-        "goodAnswerCB" => 'Brain\Games\CommonView\printForGoodAnswer',
-        "badAnswerCB" => 'Brain\Games\CommonView\printForBadAnswer',
-        "congratCB" => 'Brain\Games\CommonView\printCongrat'
-    );
+    $result = "{$firstOperand} {$operationSign} {$secondOperand}";
 
-    Engine\gamePlay($callBacksArray);
+    return $result;
 }
 
 
-/**
- * Init source data
- */
-function initData(): void
+function resultCalc(int $firstOperand, string $operationSign, int $secondOperand): string|null
 {
-    $GLOBALS['randomNumberX'] = random_int(1, 100);
-    $GLOBALS['randomNumberY'] = random_int(1, 100);
-
-    $randInt = random_int(1, 3);
-    switch ($randInt) {
-        case 1:
-            $GLOBALS['operationSign'] = '+';
-            break;
-        case 2:
-            $GLOBALS['operationSign'] = '-';
-            break;
-        case 3:
-            $GLOBALS['operationSign'] = '*';
-            break;
-        default:
-            $GLOBALS['operationSign'] = '?';
-    }
-}
-
-
-/**
- * Return string presentation of calculated expression
- *
- * @return string   String presentation of calculated expression
-*/
-function calcResult(): string|null
-{
-    switch ($GLOBALS['operationSign']) {
+    switch ($operationSign) {
         case '+':
-            $operationResult = (string)($GLOBALS['randomNumberX'] + $GLOBALS['randomNumberY']);
+            $operationResult = (string) ($firstOperand + $secondOperand);
             break;
         case '-':
-            $operationResult = (string)($GLOBALS['randomNumberX'] - $GLOBALS['randomNumberY']);
+            $operationResult = (string) ($firstOperand - $secondOperand);
             break;
         case '*':
-            $operationResult = (string)($GLOBALS['randomNumberX'] * $GLOBALS['randomNumberY']);
+            $operationResult = (string) ($firstOperand * $secondOperand);
             break;
         default:
             $operationResult = null;
@@ -96,25 +45,21 @@ function calcResult(): string|null
 }
 
 
-/**
- * Init source data and return string presentation of source expression
- *
- * @return string   String presentation of source expression
-*/
-function toString(): string
+function gameStart()
 {
-    initData();
-    $stringExpression = "{$GLOBALS['randomNumberX']} {$GLOBALS['operationSign']} {$GLOBALS['randomNumberY']}";
+    $pairsOfAskAnswer = [];
 
-    return $stringExpression;
-}
+    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
+        $firstOperand = random_int(1, 100);
+        $secondOperand = random_int(1, 100);
+        $signs = ['+', '-', '*'];
 
+        $operationSign = $signs[array_rand($signs)];
+        $ask = askPresentation($firstOperand, $operationSign, $secondOperand);
+        $answer = resultCalc($firstOperand, $operationSign, $secondOperand);
 
-/**
- *  Prints the tip message to `STDOUT` with a newline appended.
- *
-*/
-function printTip(): void
-{
-    line('What is the result of the expression?');
+        array_push($pairsOfAskAnswer, array("prompt_ask" => $ask, "right_answer" => $answer));
+    }
+
+    gamePlay(CUSTOM_TIP, $pairsOfAskAnswer);
 }

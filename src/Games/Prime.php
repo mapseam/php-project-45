@@ -8,47 +8,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Brain\Games\Prime;
+namespace BrainGames\Prime;
 
-use Brain\Games\CommonModel;
-use Brain\Games\CommonView;
-use Brain\Engine;
+use function Engine\gamePlay;
 
-use function cli\line;
+use const Engine\NUMBER_OF_ROUNDS;
 
-$GLOBALS['randomNumber'] = null;
+const CUSTOM_TIP = 'Answer "yes" if given number is prime. Otherwise answer "no".';
 
 
-/**
- * A routine for direct call from bin file
-*/
-function gameRun(): void
-{
-    $callBacksArray = array(
-        "welcomeCB" => 'Brain\Games\CommonView\printWelcome',
-        "userNamePromptCB" => 'Brain\Games\CommonView\getUserNamePrompt',
-        "setUserNameCB" => 'Brain\Games\CommonModel\setUserName',
-        "helloCB" => 'Brain\Games\CommonView\printHello',
-        "getUserNameCB" => 'Brain\Games\CommonModel\getUserName',
-        "tipCB" => 'Brain\Games\Prime\printTip',
-        "userAskPromptCB" => 'Brain\Games\CommonView\printUserAskPrompt',
-        "toStringCB" => 'Brain\Games\Prime\toString',
-        "userAnswerPromptCB" => 'Brain\Games\CommonView\getUserAnswerPrompt',
-        "calcResultCB" => 'Brain\Games\Prime\calcResult',
-        "goodAnswerCB" => 'Brain\Games\CommonView\printForGoodAnswer',
-        "badAnswerCB" => 'Brain\Games\CommonView\printForBadAnswer',
-        "congratCB" => 'Brain\Games\CommonView\printCongrat'
-    );
-
-    Engine\gamePlay($callBacksArray);
-}
-
-
-/**
- * Check if given number is prime
- * @param int $number   Any integer number
- * @return bool True if given number is prime. Otherwise False
- */
 function isPrime(int $number)
 {
     if ($number < 2) {
@@ -56,6 +24,7 @@ function isPrime(int $number)
     }
 
     $highestSquareRoot = floor(sqrt($number));
+
     for ($i = 2; $i <= $highestSquareRoot; $i++) {
         if ($number % $i === 0) {
             return false;
@@ -66,47 +35,34 @@ function isPrime(int $number)
 }
 
 
-/**
- * Init source data
- */
-function initData(): void
+function askPresentation(int $operand): string
 {
-    $GLOBALS['randomNumber'] = random_int(1, 100);
+    $result = (string) $operand;
+
+    return $result;
 }
 
 
-/**
- * Return string presentation of calculated expression
- *
- * @return string   String presentation of calculated expression
-*/
-function calcResult(): string
+function resultCalc(int $operand): string
 {
-    $operationResult = isPrime($GLOBALS['randomNumber']) ? "yes" : "no";
+    $operationResult = isPrime($operand) ? 'yes' : 'no';
 
     return $operationResult;
 }
 
 
-/**
- * Init source data and return string presentation of source expression
- *
- * @return string   String presentation of source expression
-*/
-function toString(): string
+function gameStart()
 {
-    initData();
-    $stringExpression = "{$GLOBALS['randomNumber']}";
+    $pairsOfAskAnswer = [];
 
-    return $stringExpression;
-}
+    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
+        $operand = random_int(1, 100);
 
+        $ask = askPresentation($operand);
+        $answer = resultCalc($operand);
 
-/**
- *  Prints the tip message to `STDOUT` with a newline appended.
- *
-*/
-function printTip(): void
-{
-    line('Answer "yes" if given number is prime. Otherwise answer "no".');
+        array_push($pairsOfAskAnswer, array("prompt_ask" => $ask, "right_answer" => $answer));
+    }
+
+    gamePlay(CUSTOM_TIP, $pairsOfAskAnswer);
 }
