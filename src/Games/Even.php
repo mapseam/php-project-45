@@ -14,6 +14,9 @@ use function Engine\gamePlay;
 
 use const Engine\NUMBER_OF_ROUNDS;
 
+const OPERAND_VALUE_MIN = 0;
+const OPERAND_VALUE_MAX = 100;
+const ARRAY_START_POSITION = 0;
 const CUSTOM_TIP = 'Answer "yes" if the number is even, otherwise answer "no".';
 
 
@@ -37,8 +40,8 @@ function gameStart()
 {
     $pairsOfAskAnswer = [];
 
-    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
-        $operand = random_int(1, 100);
+    for ($i = ARRAY_START_POSITION; $i < NUMBER_OF_ROUNDS; $i++) {
+        $operand = random_int(OPERAND_VALUE_MIN, OPERAND_VALUE_MAX);
 
         $ask = askPresentation($operand);
         $answer = resultCalc($operand);

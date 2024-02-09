@@ -14,6 +14,11 @@ use function Engine\gamePlay;
 
 use const Engine\NUMBER_OF_ROUNDS;
 
+const FIRST_OPERAND_VALUE_MIN = 1;
+const FIRST_OPERAND_VALUE_MAX = 100;
+const SECOND_OPERAND_VALUE_MIN = 1;
+const SECOND_OPERAND_VALUE_MAX = 100;
+const ARRAY_START_POSITION = 0;
 const CUSTOM_TIP = 'Find the greatest common divisor of given numbers.';
 
 
@@ -43,9 +48,10 @@ function gameStart()
 {
     $pairsOfAskAnswer = [];
 
-    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
-        $firstOperand = random_int(1, 100);
-        $secondOperand = random_int(1, 100);
+    for ($i = ARRAY_START_POSITION; $i < NUMBER_OF_ROUNDS; $i++) {
+        $firstOperand = random_int(FIRST_OPERAND_VALUE_MIN, FIRST_OPERAND_VALUE_MAX);
+
+        $secondOperand = random_int(SECOND_OPERAND_VALUE_MIN, SECOND_OPERAND_VALUE_MAX);
 
         $ask = askPresentation($firstOperand, $secondOperand);
         $answer = resultCalc($firstOperand, $secondOperand);

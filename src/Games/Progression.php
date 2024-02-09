@@ -10,12 +10,17 @@
 
 namespace BrainGames\Progression;
 
-use function cli\line;
-use function cli\prompt;
 use function Engine\gamePlay;
 
 use const Engine\NUMBER_OF_ROUNDS;
 
+const MIN_LENGTH = 5;
+const RECOMMEND_LENGTH = 10;
+const SEQUENCE_START_NUMBER_MIN = 1;
+const SEQUENCE_START_NUMBER_MAX = 10;
+const SEQUENCE_STEP_MIN = 2;
+const SEQUENCE_STEP_MAX = 5;
+const ARRAY_START_POSITION = 0;
 const CUSTOM_TIP = 'What number is missing in the progression?';
 
 
@@ -23,7 +28,7 @@ function progressionBuild(int $lengthValue, int $startNumber, int $stepValue): a
 {
     $numbers = [];
 
-    for ($i = 0; $i < $lengthValue; $i++) {
+    for ($i = ARRAY_START_POSITION; $i < $lengthValue; $i++) {
         $numbers[] = $startNumber;
         $startNumber += $stepValue;
     }
@@ -34,7 +39,7 @@ function progressionBuild(int $lengthValue, int $startNumber, int $stepValue): a
 
 function askPresentation(array $numbers): string
 {
-    $result = implode(', ', $numbers);
+    $result = implode(' ', $numbers);
 
     return $result;
 }
@@ -51,19 +56,18 @@ function calcResult(array &$numbers, int $missedNumberPosition): string
 
 function gameStart()
 {
-    define("MIN_LENGTH", 5);
-    define("RECOMMEND_LENGTH", 10);
-
     $pairsOfAskAnswer = [];
 
-    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
-        $startNumber = random_int(1, 10);
-        $stepValue = random_int(2, 5);
+    for ($i = ARRAY_START_POSITION; $i < NUMBER_OF_ROUNDS; $i++) {
+        $startNumber = random_int(SEQUENCE_START_NUMBER_MIN, SEQUENCE_START_NUMBER_MAX);
+
+        $stepValue = random_int(SEQUENCE_STEP_MIN, SEQUENCE_STEP_MAX);
+
         $lengthValue = random_int(MIN_LENGTH, RECOMMEND_LENGTH);
 
         $numbers = progressionBuild($lengthValue, $startNumber, $stepValue);
+        $missedNumberPosition = random_int(ARRAY_START_POSITION, count($numbers) - 1);
 
-        $missedNumberPosition = random_int(0, count($numbers) - 1);
         $answer = calcResult($numbers, $missedNumberPosition);
         $ask = askPresentation($numbers);
 

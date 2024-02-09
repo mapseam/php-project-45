@@ -14,18 +14,22 @@ use function Engine\gamePlay;
 
 use const Engine\NUMBER_OF_ROUNDS;
 
+const PRIME_VALUE_MIN = 2;
+const OPERAND_VALUE_MIN = 1;
+const OPERAND_VALUE_MAX = 100;
+const ARRAY_START_POSITION = 0;
 const CUSTOM_TIP = 'Answer "yes" if given number is prime. Otherwise answer "no".';
 
 
 function isPrime(int $number)
 {
-    if ($number < 2) {
+    if ($number < PRIME_VALUE_MIN) {
         return false;
     }
 
     $highestSquareRoot = floor(sqrt($number));
 
-    for ($i = 2; $i <= $highestSquareRoot; $i++) {
+    for ($i = PRIME_VALUE_MIN; $i <= $highestSquareRoot; $i++) {
         if ($number % $i === 0) {
             return false;
         }
@@ -55,8 +59,8 @@ function gameStart()
 {
     $pairsOfAskAnswer = [];
 
-    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
-        $operand = random_int(1, 100);
+    for ($i = ARRAY_START_POSITION; $i < NUMBER_OF_ROUNDS; $i++) {
+        $operand = random_int(OPERAND_VALUE_MIN, OPERAND_VALUE_MAX);
 
         $ask = askPresentation($operand);
         $answer = resultCalc($operand);
