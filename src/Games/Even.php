@@ -28,7 +28,7 @@ function askPresentation(int $operand): string
 }
 
 
-function resultCalc($operand): string
+function resultCalc(int $operand): string
 {
     $operationResult = ($operand % 2 === 0);
 

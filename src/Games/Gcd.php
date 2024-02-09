@@ -28,7 +28,7 @@ function gcd(int $a, int $b): int
 }
 
 
-function askPresentation($firstOperand, $secondOperand): string
+function askPresentation(int $firstOperand, int $secondOperand): string
 {
     $result = "{$firstOperand} {$secondOperand}";
 

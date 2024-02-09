@@ -16,8 +16,8 @@ use const Engine\NUMBER_OF_ROUNDS;
 
 const MIN_LENGTH = 5;
 const RECOMMEND_LENGTH = 10;
-const SEQUENCE_START_NUMBER_MIN = 1;
-const SEQUENCE_START_NUMBER_MAX = 10;
+const SEQUENCE_START_MIN = 1;
+const SEQUENCE_START_MAX = 10;
 const SEQUENCE_STEP_MIN = 2;
 const SEQUENCE_STEP_MAX = 5;
 const ARRAY_START_POSITION = 0;
@@ -56,14 +56,15 @@ function calcResult(array &$numbers, int $missedNumberPosition): string
 
 function gameStart()
 {
+    $numbers = [];
     $pairsOfAskAnswer = [];
 
     for ($i = ARRAY_START_POSITION; $i < NUMBER_OF_ROUNDS; $i++) {
-        $startNumber = random_int(SEQUENCE_START_NUMBER_MIN, SEQUENCE_START_NUMBER_MAX);
+        $lengthValue = random_int(MIN_LENGTH, RECOMMEND_LENGTH);
+
+        $startNumber = random_int(SEQUENCE_START_MIN, SEQUENCE_START_MAX);
 
         $stepValue = random_int(SEQUENCE_STEP_MIN, SEQUENCE_STEP_MAX);
-
-        $lengthValue = random_int(MIN_LENGTH, RECOMMEND_LENGTH);
 
         $numbers = progressionBuild($lengthValue, $startNumber, $stepValue);
         $missedNumberPosition = random_int(ARRAY_START_POSITION, count($numbers) - 1);
