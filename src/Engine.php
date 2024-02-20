@@ -8,35 +8,32 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Engine;
+namespace BrainGames\Engine;
 
 use function cli\line;
 use function cli\prompt;
 
 const NUMBER_OF_ROUNDS = 3;
 
-function gamePlay(string $customTip, array &$pairsOfAskAnswer)
+function playGame(string $customTip, array $pairsOfAskAnswer)
 {
     line('Welcome to the Brain Games!');
-
-    $userName = prompt(question: 'May I have your name? ', marker: '');
-    line("Hello, %s!", $userName);
-
+    $userName = prompt('May I have your name?');
+    line('Hello, %s!', $userName);
     line($customTip);
 
-    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
-        line("Question: {$pairsOfAskAnswer[$i]["prompt_ask"]}");
-        $userAnswer = prompt(question: 'Your answer: ', marker: '');
+    foreach ($pairsOfAskAnswer as [$presentAsk, $rightAnswer]) {
+        line('Question: %s', $presentAsk);
+        $userAnswer = prompt('Your answer');
 
-        $rightAnswer = $pairsOfAskAnswer[$i]["right_answer"];
-
-        if ($rightAnswer === $userAnswer) {
-            line("Correct!");
+        if ($rightAnswer == $userAnswer) {
+            line('Correct!');
         } else {
-            exit("'{$userAnswer}' is wrong answer ;(. Correct answer was " .
-                "'{$rightAnswer}'.\nLet's try again, {$userName}!");
+            line("'%s' is wrong answer ;(. Correct answer was '%s'", $userAnswer, $rightAnswer);
+            line("Let's try again, %s!", $userName);
+            return;
         }
     }
 
-    line("Congratulations, {$userName}!");
+    line('Congratulations, %s!', $userName);
 }

@@ -12,4 +12,4 @@ if (file_exists($autoloadPath1)) {
 
 use BrainGames\Cli;
 
-Cli\userGreeting();
+Cli\greetingUser();

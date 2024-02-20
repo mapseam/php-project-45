@@ -8,27 +8,26 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace BrainGames\Gcd;
+namespace BrainGames\Games\Gcd;
 
-use function Engine\gamePlay;
+use function BrainGames\Engine\playGame;
 
-use const Engine\NUMBER_OF_ROUNDS;
+use const BrainGames\Engine\NUMBER_OF_ROUNDS;
 
 const FIRST_OPERAND_VALUE_MIN = 1;
 const FIRST_OPERAND_VALUE_MAX = 100;
 const SECOND_OPERAND_VALUE_MIN = 1;
 const SECOND_OPERAND_VALUE_MAX = 100;
-const ARRAY_START_POSITION = 0;
 const CUSTOM_TIP = 'Find the greatest common divisor of given numbers.';
 
 
-function gcd(int $a, int $b): int
+function getGCD(int $firstOperand, int $secondOperand): int
 {
-    return $b > 0 ? gcd($b, $a % $b) : $a;
+    return $secondOperand > 0 ? getGCD($secondOperand, $firstOperand % $secondOperand) : $firstOperand;
 }
 
 
-function askPresentation(int $firstOperand, int $secondOperand): string
+function presentAsk(int $firstOperand, int $secondOperand): string
 {
     $result = "{$firstOperand} {$secondOperand}";
 
@@ -36,28 +35,20 @@ function askPresentation(int $firstOperand, int $secondOperand): string
 }
 
 
-function resultCalc(int $firstOperand, int $secondOperand): string
-{
-    $operationResult = gcd($firstOperand, $secondOperand);
-
-    return (string) $operationResult;
-}
-
-
-function gameStart()
+function runGCDGame()
 {
     $pairsOfAskAnswer = [];
 
-    for ($i = ARRAY_START_POSITION; $i < NUMBER_OF_ROUNDS; $i++) {
+    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
         $firstOperand = random_int(FIRST_OPERAND_VALUE_MIN, FIRST_OPERAND_VALUE_MAX);
 
         $secondOperand = random_int(SECOND_OPERAND_VALUE_MIN, SECOND_OPERAND_VALUE_MAX);
 
-        $ask = askPresentation($firstOperand, $secondOperand);
-        $answer = resultCalc($firstOperand, $secondOperand);
+        $ask = presentAsk($firstOperand, $secondOperand);
+        $rightAnswer = getGCD($firstOperand, $secondOperand);
 
-        array_push($pairsOfAskAnswer, array("prompt_ask" => $ask, "right_answer" => $answer));
+        $pairsOfAskAnswer[] = [$ask, $rightAnswer];
     }
 
-    gamePlay(CUSTOM_TIP, $pairsOfAskAnswer);
+    playGame(CUSTOM_TIP, $pairsOfAskAnswer);
 }

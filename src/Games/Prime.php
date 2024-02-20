@@ -8,20 +8,19 @@
  * @license   http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace BrainGames\Prime;
+namespace BrainGames\Games\Prime;
 
-use function Engine\gamePlay;
+use function BrainGames\Engine\playGame;
 
-use const Engine\NUMBER_OF_ROUNDS;
+use const BrainGames\Engine\NUMBER_OF_ROUNDS;
 
 const PRIME_VALUE_MIN = 2;
 const OPERAND_VALUE_MIN = 1;
 const OPERAND_VALUE_MAX = 100;
-const ARRAY_START_POSITION = 0;
 const CUSTOM_TIP = 'Answer "yes" if given number is prime. Otherwise answer "no".';
 
 
-function isPrime(int $number)
+function isPrime(int $number): bool
 {
     if ($number < PRIME_VALUE_MIN) {
         return false;
@@ -39,7 +38,7 @@ function isPrime(int $number)
 }
 
 
-function askPresentation(int $operand): string
+function presentAsk(int $operand): string
 {
     $result = (string) $operand;
 
@@ -47,26 +46,18 @@ function askPresentation(int $operand): string
 }
 
 
-function resultCalc(int $operand): string
-{
-    $operationResult = isPrime($operand) ? 'yes' : 'no';
-
-    return $operationResult;
-}
-
-
-function gameStart()
+function runPrimeGame()
 {
     $pairsOfAskAnswer = [];
 
-    for ($i = ARRAY_START_POSITION; $i < NUMBER_OF_ROUNDS; $i++) {
+    for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
         $operand = random_int(OPERAND_VALUE_MIN, OPERAND_VALUE_MAX);
 
-        $ask = askPresentation($operand);
-        $answer = resultCalc($operand);
+        $ask = presentAsk($operand);
+        $rightAnswer = isPrime($operand) ? 'yes' : 'no';
 
-        array_push($pairsOfAskAnswer, array("prompt_ask" => $ask, "right_answer" => $answer));
+        $pairsOfAskAnswer[] = [$ask, $rightAnswer];
     }
 
-    gamePlay(CUSTOM_TIP, $pairsOfAskAnswer);
+    playGame(CUSTOM_TIP, $pairsOfAskAnswer);
 }
