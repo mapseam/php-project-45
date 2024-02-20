@@ -31,16 +31,24 @@ function presentAsk(int $firstOperand, string $operationSign, int $secondOperand
 
 function calcValue(int $firstOperand, string $operationSign, int $secondOperand): int
 {
+    $calculatedValue = 0;
+
     switch ($operationSign) {
         case '+':
-            return ($firstOperand + $secondOperand);
+            $calculatedValue = ($firstOperand + $secondOperand);
+            break;
         case '-':
-            return ($firstOperand - $secondOperand);
+            $calculatedValue = ($firstOperand - $secondOperand);
+            break;
         case '*':
-            return ($firstOperand * $secondOperand);
+            $calculatedValue = ($firstOperand * $secondOperand);
+            break;
         default:
+            echo 'Error! An unknown operator was received!';
             break;
     }
+
+    return $calculatedValue;
 }
 
 
