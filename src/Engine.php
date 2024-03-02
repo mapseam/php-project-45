@@ -26,7 +26,7 @@ function playGame(string $customTip, array $pairsOfAskAnswer)
         line('Question: %s', $presentAsk);
         $userAnswer = prompt('Your answer');
 
-        if ($rightAnswer == $userAnswer) {
+        if ((string) $rightAnswer === $userAnswer) {
             line('Correct!');
         } else {
             line("'%s' is wrong answer ;(. Correct answer was '%s'", $userAnswer, $rightAnswer);

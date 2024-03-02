@@ -19,14 +19,6 @@ const OPERAND_VALUE_MAX = 100;
 const CUSTOM_TIP = 'Answer "yes" if the number is even, otherwise answer "no".';
 
 
-function presentAsk(int $operand): string
-{
-    $result = (string) $operand;
-
-    return $result;
-}
-
-
 function isEven(int $operand): bool
 {
     $operationResult = ($operand % 2 === 0);
@@ -42,7 +34,7 @@ function runEvenGame()
     for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
         $operand = random_int(OPERAND_VALUE_MIN, OPERAND_VALUE_MAX);
 
-        $ask = presentAsk($operand);
+        $ask = (string) $operand;
         $rightAnswer = isEven($operand) ? 'yes' : 'no';
 
         $pairsOfAskAnswer[] = [$ask, $rightAnswer];

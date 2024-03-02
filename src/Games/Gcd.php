@@ -27,14 +27,6 @@ function getGCD(int $firstOperand, int $secondOperand): int
 }
 
 
-function presentAsk(int $firstOperand, int $secondOperand): string
-{
-    $result = "{$firstOperand} {$secondOperand}";
-
-    return $result;
-}
-
-
 function runGCDGame()
 {
     $pairsOfAskAnswer = [];
@@ -44,7 +36,7 @@ function runGCDGame()
 
         $secondOperand = random_int(SECOND_OPERAND_VALUE_MIN, SECOND_OPERAND_VALUE_MAX);
 
-        $ask = presentAsk($firstOperand, $secondOperand);
+        $ask = "{$firstOperand} {$secondOperand}";
         $rightAnswer = getGCD($firstOperand, $secondOperand);
 
         $pairsOfAskAnswer[] = [$ask, $rightAnswer];

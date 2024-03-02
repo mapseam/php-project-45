@@ -21,14 +21,6 @@ const SECOND_OPERAND_VALUE_MAX = 100;
 const CUSTOM_TIP = 'What is the result of the expression?';
 
 
-function presentAsk(int $firstOperand, string $operationSign, int $secondOperand): string
-{
-    $result = "{$firstOperand} {$operationSign} {$secondOperand}";
-
-    return $result;
-}
-
-
 function calcValue(int $firstOperand, string $operationSign, int $secondOperand): int
 {
     $calculatedValue = 0;
@@ -64,7 +56,7 @@ function runCalcGame()
         $signs = ['+', '-', '*'];
         $operationSign = $signs[array_rand($signs)];
 
-        $ask = presentAsk($firstOperand, $operationSign, $secondOperand);
+        $ask = "{$firstOperand} {$operationSign} {$secondOperand}";
         $rightAnswer = calcValue($firstOperand, $operationSign, $secondOperand);
 
         $pairsOfAskAnswer[] = [$ask, $rightAnswer];

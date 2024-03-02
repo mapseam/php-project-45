@@ -38,14 +38,6 @@ function isPrime(int $number): bool
 }
 
 
-function presentAsk(int $operand): string
-{
-    $result = (string) $operand;
-
-    return $result;
-}
-
-
 function runPrimeGame()
 {
     $pairsOfAskAnswer = [];
@@ -53,7 +45,7 @@ function runPrimeGame()
     for ($i = 0; $i < NUMBER_OF_ROUNDS; $i++) {
         $operand = random_int(OPERAND_VALUE_MIN, OPERAND_VALUE_MAX);
 
-        $ask = presentAsk($operand);
+        $ask = (string) $operand;
         $rightAnswer = isPrime($operand) ? 'yes' : 'no';
 
         $pairsOfAskAnswer[] = [$ask, $rightAnswer];
