@@ -23,18 +23,6 @@ const SEQUENCE_STEP_MAX = 5;
 const ARRAY_START_POSITION = 0;
 const CUSTOM_TIP = 'What number is missing in the progression?';
 
-/*function buildProgression(int $lengthValue, int $startNumber, int $stepValue): array
-{
-    $numbers = [];
-
-    for ($i = 0; $i < $lengthValue; $i++) {
-        $numbers[] = $startNumber;
-        $startNumber += $stepValue;
-    }
-
-    return $numbers;
-}*/
-
 
 function runProgressionGame()
 {
@@ -47,7 +35,6 @@ function runProgressionGame()
 
         $stepValue = random_int(SEQUENCE_STEP_MIN, SEQUENCE_STEP_MAX);
 
-        //$numbers = buildProgression($lengthValue, $startNumber, $stepValue);
         $numbers = range($startNumber, $startNumber + ($lengthValue - 1) * $stepValue, $stepValue);
         $upOfNumbers = count($numbers) - 1;
         if (ARRAY_START_POSITION < $upOfNumbers) {
